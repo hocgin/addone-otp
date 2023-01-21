@@ -1,8 +1,8 @@
-import { defineConfig } from 'umi';
+import {defineConfig} from 'umi';
 import routerConfig from '../src/router.config';
-import { theme } from 'antd';
+import {theme} from 'antd';
 
-const { defaultAlgorithm, defaultSeed } = theme;
+const {defaultAlgorithm, defaultSeed} = theme;
 const mapToken = defaultAlgorithm(defaultSeed);
 
 export const useLogger = () => {
@@ -12,7 +12,7 @@ export const useLogger = () => {
   if (offLogger) {
     result.push([
       'transform-remove-console',
-      { exclude: ['error', 'warn', 'info'] },
+      {exclude: ['error', 'warn', 'info']},
     ]);
   }
   return result;
@@ -23,7 +23,9 @@ export default defineConfig({
   locale: {
     antd: true,
   },
-  antd: {},
+  antd: {
+    disableBabelPluginImport: true
+  },
   dva: {},
   qiankun: {
     slave: {
@@ -44,7 +46,7 @@ export default defineConfig({
       // => 转到服务端地址
       target: 'http://127.0.0.1:20001/',
       changeOrigin: true,
-      pathRewrite: { '^/api': '' },
+      pathRewrite: {'^/api': ''},
     },
   },
   theme: {},

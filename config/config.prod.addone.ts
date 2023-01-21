@@ -11,26 +11,18 @@ export default defineConfig({
   },
   plugins: ['@hocgin/umijs-plugin-browser-addone'],
   extensions: {
+    name: '__MSG_extension_name__',
+    description: '__MSG_extension_description__',
+    defaultLocale: 'en',
     icons: '../public/logo.jpg',
-    contentScripts: [
-      WebExtension.kit.tbkScriptConfig(['@/pages/_tpl/contentscripts/tbk']),
-      WebExtension.kit.authorizationScriptConfig([
-        '@/pages/_tpl/contentscripts/authorization',
-      ]),
-      {
-        matches: ['https://baidu.com/*'],
-        entries: ['@/pages/_tpl/contentscripts/github'],
-      },
-      {
-        matches: ['https://baidu.com/*', 'https://www.baidu.com/*'],
-        entries: ['@/pages/_tpl/contentscripts/baidu'],
-        runAt: 'document_end',
-      },
-    ],
-    background: {
-      serviceWorker: '@/pages/_tpl/background/index',
+    action: {
+      defaultTitle: '下载器',
+      defaultPopup: '@/pages/popup',
     },
-    permissions: ['contextMenus', 'webRequest', 'storage', 'notifications'],
+    background: {
+      serviceWorker: '@/pages/background/index',
+    },
+    permissions: ['contextMenus', 'webRequest', 'storage', 'downloads'],
     hostPermissions: ['<all_urls>'],
   } as BrowserAddoneExtensionsType,
 });

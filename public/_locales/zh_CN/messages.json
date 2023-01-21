@@ -1,0 +1,8 @@
+{
+  "extension_name": {
+    "message": "OTP"
+  },
+  "extension_description": {
+    "message": "Google Authenticator"
+  }
+}

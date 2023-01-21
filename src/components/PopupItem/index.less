@@ -1,0 +1,140 @@
+@import '~@/mixin.less';
+
+.itemWrapper {
+  position: relative;
+  user-select: none;
+
+  .state {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 2px;
+
+    .warn {
+      color: #F5BD4F;
+    }
+
+    .pin {
+      cursor: pointer;
+
+      &.checked {
+        color: #DE655C;
+        transform: rotateZ(-45deg);
+      }
+    }
+  }
+
+  &.disabled {
+    //filter: grayscale(1);
+    opacity: .9;
+  }
+}
+
+.itemBox {
+  display: flex;
+  flex-direction: column;
+  border-bottom: solid 1px #eee;
+
+  &:hover {
+    background-color: rgba(238, 238, 238, .6);
+    border-radius: 4px;
+    overflow: hidden;
+
+    .toolbar {
+      display: flex;
+    }
+  }
+
+  .toolbar {
+    border-top: 1px solid #eee;
+    display: none;
+
+    button {
+      flex: 1 1;
+    }
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 6px;
+  box-sizing: border-box;
+  margin: 2px 0;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 4px;
+  }
+
+  .content {
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    .title {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      flex-direction: row;
+
+      .text {
+        flex: 1 1;
+        .onlyline();
+      }
+
+      .tag {
+        color: #d48806;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .token {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    cursor: pointer;
+
+    .tokenCode {
+      font-size: 2.3em;
+      font-family: 'NumberMono';
+      box-sizing: border-box;
+      padding: 0 4px;
+      border-radius: 5px;
+
+      &.copied {
+        border-color: rgba(11, 174, 11, 1);
+        background-color: rgba(11, 174, 11, .35);
+      }
+
+      // 时间快来不及了
+      &.warn {
+        color: #D95342;
+        animation: blink 1s infinite ease-in-out;
+        @keyframes blink {
+          0% {
+            color: #EEA59C;
+          }
+          100% {
+            color: #D95342;
+          }
+        }
+      }
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      margin-left: 5px;
+    }
+  }
+}
