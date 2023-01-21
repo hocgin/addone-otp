@@ -1,0 +1,123 @@
+name: Deploy::SSR
+
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ${{ secrets.IMAGES_HUB_REGISTRY_URL }}/${{ secrets.IMAGES_HUB_NAMESPACES }}/antd-ssr
+  IMAGES_HUB_REGISTRY_URL: ${{ secrets.IMAGES_HUB_REGISTRY_URL }}
+  IMAGES_HUB_USER_NAME: ${{ secrets.IMAGES_HUB_USER_NAME }}
+  IMAGES_HUB_PASSWORD: ${{ secrets.IMAGES_HUB_PASSWORD }}
+  IMAGES_HUB_EMAIL: hocgin@gmail.com
+  KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+  QINIU_ACCESS_KEY: ${{ secrets.QINIU_ACCESS_KEY }}
+  QINIU_SECRET_KEY: ${{ secrets.QINIU_SECRET_KEY }}
+  QINIU_BUCKET: ${{ secrets.QINIU_BUCKET }}
+
+jobs:
+  build-publish-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: Git Checkout Code
+        uses: actions/checkout@v1
+        id: git_checkout
+      # 变量提取
+      - id: prep
+        uses: hocgin/action-env@main
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run build
+        run: npm run build:prod.ssr
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+          USE_LOG: false
+      - uses: hocgin/action-qiniu-upload@master
+        with:
+          access_key: ${{ env.QINIU_ACCESS_KEY }}
+          secret_key: ${{ env.QINIU_SECRET_KEY }}
+          bucket: ${{ env.QINIU_BUCKET }}
+          source_dir: 'dist'
+          dest_dir: ${{github.event.repository.name}}
+          ignore_source_map: true
+          exclude: "index.html, manifest.json, umi.server.d.ts, umi.server.js"
+          overwrite: true
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      # 设置 Docker 编译环境
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      # 缓存 Docker 层
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      # 登陆 阿里云容器镜像中心
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.IMAGES_HUB_REGISTRY_URL }}
+          username: ${{ env.IMAGES_HUB_USER_NAME }}
+          password: ${{ env.IMAGES_HUB_PASSWORD }}
+      # 编译和发布镜像 => Services
+      - name: Build & Push Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.prep.outputs.version_number }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repositoryUrl }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=${{ github.event.repository.license.name }}
+      # 设置 k8s 环境
+      - name: Set up k8s Context
+        uses: Azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ env.KUBE_CONFIG }}
+      # 配置 容器中心 账号/密码
+      - name: Create Container Registry Secret
+        uses: Azure/k8s-create-secret@v1
+        with:
+          namespace: ${{ steps.prep.outputs.env }}
+          container-registry-url: ${{ env.IMAGES_HUB_REGISTRY_URL }}
+          container-registry-username: ${{ env.IMAGES_HUB_USER_NAME }}
+          container-registry-password: ${{ env.IMAGES_HUB_PASSWORD }}
+          container-registry-email: ${{ env.IMAGES_HUB_EMAIL }}
+          secret-name: k8s-secret
+      # 部署到 k8s
+      - name: Deploy to k8s
+        uses: Azure/k8s-deploy@v1
+        with:
+          namespace: ${{ steps.prep.outputs.env }}
+          manifests: |
+            manifests/deployment.antd-ssr.yml
+          images: |
+            ${{ env.IMAGE_NAME }}:${{ steps.prep.outputs.version_number }}
+          imagepullsecrets: |
+            k8s-secret
