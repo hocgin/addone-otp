@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import classnames from "classnames";
 import styles from "./index.less";
-import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, Select, Space, Tooltip} from "antd";
+import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, Select, Skeleton, Space, Tooltip} from "antd";
 import {
   CloudDownloadOutlined,
   FilterFilled,
@@ -113,16 +113,14 @@ const Index: React.FC<{
       </div>
     </div>
     <div className={styles.box} ref={boxRef}>
-      {list.map((item) => <PopupItem item={item} event$={event$}/>)}
-      {(list?.length ?? 0) === 0 && (
-        <div style={{
+      <Skeleton loading={$listAllData.loading}>
+        {list.map((item) => <PopupItem item={item} event$={event$}/>)}
+        {!list?.length && <div style={{
           height: '100%', display: 'flex',
           justifyContent: 'center',
           alignItems: 'center'
-        }}>
-          <Empty/>
-        </div>
-      )}
+        }}><Empty/></div>}
+      </Skeleton>
     </div>
     <div className={styles.bottombar}>
       <Space size={2}>
