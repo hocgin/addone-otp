@@ -1,6 +1,6 @@
-import { defineConfig } from 'umi';
-import { WebExtension } from '@hocgin/browser-addone-kit';
-import { BrowserAddoneExtensionsType } from '@hocgin/umijs-plugin-browser-addone';
+import {defineConfig} from 'umi';
+import {WebExtension} from '@hocgin/browser-addone-kit';
+import {BrowserAddoneExtensionsType} from '@hocgin/umijs-plugin-browser-addone';
 
 export default defineConfig({
   define: {
@@ -22,7 +22,16 @@ export default defineConfig({
     background: {
       serviceWorker: '@/pages/background/index',
     },
+    contentScripts: [
+      {
+        matches: ['<all_urls>'],
+        allFrames: true,
+        match_origin_as_fallback: true,
+        entries: ['@/pages/contentscript/index'],
+        runAt: 'document_end',
+      },
+    ],
     permissions: ['contextMenus', 'webRequest', 'storage', 'downloads'],
     hostPermissions: ['<all_urls>'],
-  } as BrowserAddoneExtensionsType,
+  },
 });

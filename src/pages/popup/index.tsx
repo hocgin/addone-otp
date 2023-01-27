@@ -19,7 +19,6 @@ const Index: React.FC<{
   className?: string;
 }> = (props) => {
   let {message} = App.useApp();
-  console.log('message', message, App.useApp());
   let [route, setRoute] = useState<RouteType>(RouteType.LockPage);
   const event$ = useEventEmitter<Message>();
   let $getLock = useRequest(AppService.getLock, {

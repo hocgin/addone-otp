@@ -28,6 +28,7 @@ const Index: React.FC<{
   className?: string;
 }> = ({className, event$}) => {
   let {message} = App.useApp();
+  let [passwd, setPasswd] = useState<string | undefined>();
   let boxRef = useRef<any>();
   let [filter, setFilter] = useLocalStorageState('filter', {
     defaultValue: {
@@ -113,14 +114,12 @@ const Index: React.FC<{
       </div>
     </div>
     <div className={styles.box} ref={boxRef}>
-      <Skeleton loading={$listAllData.loading}>
-        {list.map((item) => <PopupItem item={item} event$={event$}/>)}
-        {!list?.length && <div style={{
-          height: '100%', display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}><Empty/></div>}
-      </Skeleton>
+      {list.map((item) => <PopupItem item={item} event$={event$}/>)}
+      {!list?.length && <div style={{
+        height: '100%', display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}><Empty/></div>}
     </div>
     <div className={styles.bottombar}>
       <Space size={2}>
@@ -163,13 +162,11 @@ const Index: React.FC<{
                   onClick={() => event$.emit({type: MessageType.ExportBackup as any})}/>
         </Tooltip>
         <Popconfirm title="设置密码"
-                    description={<Input.Password placeholder={`请输入密码`}/>}
-                    onConfirm={() => {
-                      event$.emit({type: MessageType.Lock, value: undefined});
-                    }}>
+                    description={<Input.Password placeholder={`请输入密码`} value={passwd}
+                                                 onChange={e => setPasswd(e.target?.value)}/>}
+                    onConfirm={() => event$.emit({type: MessageType.Lock, value: passwd})}>
           <Button type="text" size="small" icon={<LockOutlined/>}/>
         </Popconfirm>
-        {/*<PlusButton event$={event$}/>*/}
       </Space>
       <Space className={styles.siderTool}>
         <StoreLink/>
@@ -182,7 +179,7 @@ const Index: React.FC<{
         </Popover>
       </Space>
     </div>
-  </div>
+  </div>;
 };
 
 export default Index;
