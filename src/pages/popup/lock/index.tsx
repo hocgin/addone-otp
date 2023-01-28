@@ -28,7 +28,7 @@ const Index: React.FC<{
         </Input.Group>
       </div>
       <div className={styles.resetRow}>
-        <Popconfirm title="警告" description="重置密码后保存数据会被清空。" placement="bottomRight"
+        <Popconfirm title="警告" description="重置后会导致数据被清空" placement="bottomRight"
                     onConfirm={() => event$.emit({type: MessageType.ResetLock})}
                     icon={<QuestionCircleOutlined style={{color: 'red'}}/>}>
           <Button type="link" danger>忘记密码?</Button>
