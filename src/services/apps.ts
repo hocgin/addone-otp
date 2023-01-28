@@ -129,5 +129,6 @@ export default class OptService {
 
   static async resetLock() {
     await storageKit.remove(LOCK_KEY as any);
+    await storageKit.remove(STORAGE_KEY as any);
   }
 }
