@@ -31,7 +31,7 @@ export default defineConfig({
         runAt: 'document_end',
       },
     ],
-    permissions: ['contextMenus', 'webRequest', 'storage', 'downloads'],
+    permissions: ['contextMenus', 'storage', 'downloads'],
     hostPermissions: ['<all_urls>'],
   },
 });
