@@ -3,6 +3,6 @@
     "message": "Authentication - 2FA"
   },
   "extension_description": {
-    "message": "Two-factor authentication"
+    "message": "Provide users with a way to uniformly manage the secondary authentication keys of different websites. It allows users to easily obtain the verification code for secondary verification"
   }
 }
