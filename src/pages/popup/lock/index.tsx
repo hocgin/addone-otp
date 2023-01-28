@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import classnames from "classnames";
-import {Avatar, Button, Input, Popconfirm} from "antd";
+import {Button, Input, Popconfirm} from "antd";
 import {Message, MessageType} from "@/_types";
 import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {QuestionCircleOutlined} from '@ant-design/icons';
