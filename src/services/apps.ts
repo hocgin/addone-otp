@@ -2,6 +2,7 @@ import {storageKit} from "@hocgin/browser-addone-kit";
 import {LangKit} from "@/_utils";
 import {StoreOtpOptions, TwoFaKit} from "@/_utils/_2fa";
 import {DataType, Lock} from "@/_types";
+import {v4 as uuidv4} from 'uuid';
 
 let STORAGE_KEY = `OTP_LIST`;
 let LOCK_KEY = `LOCK_KEY`;
@@ -31,7 +32,7 @@ export default class OptService {
     let list = await OptService.listAll();
     list.push({
       // @ts-ignore
-      id: Date.now(),
+      id: uuidv4(),
       ...values
     });
     // @ts-ignore

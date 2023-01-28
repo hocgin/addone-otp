@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import classnames from "classnames";
 import styles from "./index.less";
-import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, Select, Skeleton, Space, Tooltip} from "antd";
+import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, Select, Space, Tooltip} from "antd";
 import {
   CloudDownloadOutlined,
   FilterFilled,
@@ -19,9 +19,9 @@ import {LangKit} from "@/_utils";
 import {WebExtension} from "@hocgin/browser-addone-kit";
 import {useBoolean, useLocalStorageState, useRequest} from "ahooks";
 import AppService from "@/services/apps";
+import OptService from "@/services/apps";
 import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {TwoFaKit} from "@/_utils/_2fa";
-import OptService from "@/services/apps";
 
 const Index: React.FC<{
   event$: EventEmitter<Message>,
@@ -60,7 +60,7 @@ const Index: React.FC<{
       message.success(`删除成功`);
     },
   })
-  event$.useSubscription(async (message: Message) => {
+  let onMessage = async (message: Message) => {
     console.log('消息接收(HOME)', message);
     if (message?.type === MessageType.Pin) {
       await $updateById.runAsync(message?.value, {pin: true});
@@ -74,8 +74,13 @@ const Index: React.FC<{
       await TwoFaKit.saveFile(JSON.stringify(list), `备份文件.json`);
     } else if (message?.type === MessageType.Delete) {
       await $removeById.runAsync(message.value);
+    } else if (message?.type === MessageType.ScanPageQrCode) {
+      let tab = await WebExtension.kit.getCurrentTab();
+      console.log('扫描页面二维码', tab);
+      WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.ScanPageImage} as Message, onMessage);
     }
-  });
+  };
+  event$.useSubscription(onMessage);
 
   return <div className={classnames(styles.page, className)}>
     <div className={styles.searchBox}>
@@ -170,8 +175,8 @@ const Index: React.FC<{
       </Space>
       <Space className={styles.siderTool}>
         <StoreLink/>
-        <SettingOutlined
-          onClick={_ => WebExtension.tabs.create({url: WebExtension.kit.getPageUrl('/$options.html')})}/>
+        <SettingOutlined disabled={true}
+                         onClick={_ => WebExtension.tabs.create({url: WebExtension.kit.getPageUrl('/$options.html')})}/>
         <Popover
           placement="topRight"
           content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>

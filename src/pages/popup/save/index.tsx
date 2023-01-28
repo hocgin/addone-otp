@@ -31,10 +31,10 @@ const Index: React.FC<{
 
   return (<div className={classnames(styles.page, className)}>
     <Form form={form} initialValues={initialValues} colon={false} onFinish={$save.run}>
-      <Form.Item label='标题' name="label" required>
+      <Form.Item label='标题' name="label" rules={[{ required: true }]}>
         <Input allowClear placeholder='标题..'/>
       </Form.Item>
-      <Form.Item label='密钥' name="secret" required>
+      <Form.Item label='密钥' name="secret" rules={[{ required: true }]}>
         <Input.TextArea allowClear autoSize placeholder='密钥..'/>
       </Form.Item>
       <Form.Item label='账号' name="issuer" tooltip='批量下载请用换行分隔'>

@@ -17,9 +17,6 @@ export const PopupItem: React.FC<{
   let {message} = App.useApp();
   let [deploy, setDeploy] = useState<number | undefined>(undefined);
   useRafTimeout(() => setDeploy(undefined), deploy)
-  // let [data, setData] = useState<ItemType>(item);
-  // useRequest(OptService.)
-
 
   return (<div className={classnames(styles.itemWrapper, {
     [styles.disabled]: !item?.isValid
@@ -42,21 +39,22 @@ export const PopupItem: React.FC<{
             [styles.warn]: item?.timeRemaining! <= 5
           })}>{item?.token ?? `N/A`}</div>
           <div className={styles.progress}>
-            <Progress strokeWidth={20} width={26} format={() => `${item?.timeRemaining ?? ``}`} type="circle"
+            <Progress strokeWidth={18} width={26} format={() => `${item?.timeRemaining ?? ``}`} type="circle"
                       percent={item?.progress ?? 0}/>
           </div>
         </div>
       </div>
       <div className={styles.toolbar}>
-        <Button type='text' icon={deploy? <CheckOutlined style={{color: '#00B06D'} as any}/> :<LinkOutlined/>}
+        <Button type='text' icon={deploy ? <CheckOutlined style={{color: '#00B06D'} as any}/> : <LinkOutlined/>}
                 onClick={() => {
                   navigator?.clipboard?.writeText?.(`${item?.keyUri}`);
                   setDeploy(1000);
                   message.success(`复制成功`);
                 }}>复制链接</Button>
         <QrCodeButton value={item?.keyUri}/>
-        <Popconfirm title={`确认删除?`} onConfirm={() => event$.emit({type: MessageType.Delete, value: item?.id})}
-                    placement="topRight"
+        <Popconfirm title={`警告`} description={`删除后不可恢复?`}
+                    onConfirm={() => event$.emit({type: MessageType.Delete, value: item?.id})}
+                    placement="bottomRight"
                     showCancel={false}>
           <Button type='text' icon={<DeleteOutlined/>} danger>删除</Button>
         </Popconfirm>

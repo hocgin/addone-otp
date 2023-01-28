@@ -11,9 +11,9 @@ export enum MessageType {
   Lock = 'Lock',
   UnLock = 'UnLock',
   Delete = 'Delete',
-
   ResetLock = 'ResetLock',
   GoHomePage = 'GoHomePage',
+  ScanPageImage = 'ScanPageImage',
 }
 
 export interface Message {
