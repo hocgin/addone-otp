@@ -175,8 +175,8 @@ const Index: React.FC<{
       </Space>
       <Space className={styles.siderTool}>
         <StoreLink/>
-        <SettingOutlined disabled={true}
-                         onClick={_ => WebExtension.tabs.create({url: WebExtension.kit.getPageUrl('/$options.html')})}/>
+        {/*<SettingOutlined disabled={true}*/}
+        {/*                 onClick={_ => WebExtension.tabs.create({url: WebExtension.kit.getPageUrl('/$options.html')})}/>*/}
         <Popover
           placement="topRight"
           content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>

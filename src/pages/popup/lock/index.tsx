@@ -3,9 +3,9 @@ import classnames from "classnames";
 import {Avatar, Button, Input, Popconfirm} from "antd";
 import {Message, MessageType} from "@/_types";
 import {EventEmitter} from "ahooks/lib/useEventEmitter";
-import {QuestionCircleOutlined, UserOutlined} from '@ant-design/icons';
+import {QuestionCircleOutlined} from '@ant-design/icons';
 import styles from './index.less'
-import {WebExtension} from "@hocgin/browser-addone-kit";
+import Logo from "./Logo";
 
 const Index: React.FC<{
   className?: string;
@@ -16,8 +16,7 @@ const Index: React.FC<{
   return (<div className={classnames(className, styles.page)}>
     <div className={styles.box}>
       <div className={styles.logo}>
-        <Avatar className={styles.image} size={84} icon={<UserOutlined/>}
-                src={WebExtension.runtime.getURL('/logo.jpg')}/>
+        <Logo/>
       </div>
       <div className={styles.input}>
         <Input.Group compact>
