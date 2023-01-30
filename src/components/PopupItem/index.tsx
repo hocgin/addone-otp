@@ -24,7 +24,7 @@ export const PopupItem: React.FC<{
     <div className={styles.itemBox}>
       <div className={classnames(styles.item, {})}>
         <div className={styles.logo}>
-          <Avatar src={OptService.getWebSiteImageUrl(item)}/>
+          <Avatar size={40} src={OptService.getWebSiteImageUrl(item)}/>
         </div>
         <div className={styles.content}>
           <div>{item?.label}</div>
@@ -39,8 +39,11 @@ export const PopupItem: React.FC<{
             [styles.warn]: item?.timeRemaining! <= 5
           })}>{item?.token ?? `N/A`}</div>
           <div className={styles.progress}>
-            <Progress strokeWidth={18} width={26} format={() => `${item?.timeRemaining ?? ``}`} type="circle"
-                      percent={item?.progress ?? 0}/>
+            <Progress strokeWidth={18} width={26} format={() => `${item?.timeRemaining ?? ``}`}
+                      strokeColor={item?.timeRemaining! <= 5 ? `#D95342`
+                        // : item?.timeRemaining! <= 15 ? `#F5BD4F`
+                        : undefined}
+                      type="circle" percent={item?.progress ?? 0}/>
           </div>
         </div>
       </div>
