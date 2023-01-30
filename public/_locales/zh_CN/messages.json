@@ -3,6 +3,6 @@
     "message": "两步验证(Authentication) - 2FA"
   },
   "extension_description": {
-    "message": "为用户提供一种统一管理不同网站的二次验证密钥的方式。它可以让用户方便地获取二次验证的验证码"
+    "message": "可以让用户方便地获取二次验证的验证码"
   }
 }
