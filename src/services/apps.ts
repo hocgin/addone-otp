@@ -9,11 +9,12 @@ import memoizeOne from 'memoize-one'
 let STORAGE_KEY = `OTP_LIST`;
 let LOCK_KEY = `LOCK_KEY`;
 export default class OptService {
-  static _getWebSiteImageUrl = memoizeOne((title) => Object.entries(icons).find((item) => title.includes(item?.[0]))?.[1] ?? `https://cdn.hocgin.top/file/lock.png`)
+  static _getWebSiteImageUrl = memoizeOne((title) => Object.entries(icons).find((item) => title.includes(item?.[0]))?.[1])
 
   static getWebSiteImageUrl(data: DataType) {
-    let title = `${data?.label}`.toLowerCase();
-    return OptService._getWebSiteImageUrl(title);
+    let label = `${data?.label}`.toLowerCase();
+    let issuer = `${data?.issuer}`.toLowerCase();
+    return OptService._getWebSiteImageUrl(issuer) ?? OptService._getWebSiteImageUrl(label) ?? `https://cdn.hocgin.top/file/lock.png`;
   }
 
   static async save(values: StoreOtpOptions) {
