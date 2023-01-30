@@ -7,19 +7,20 @@ import {Message, MessageType} from "@/_types";
 import HomePage from "@/pages/popup/home";
 import LockPage from "@/pages/popup/lock";
 import SavePage from "@/pages/popup/save";
-import {App} from "antd";
+import {App, Spin} from "antd";
 
 enum RouteType {
   LockPage = 'LockPage',
   HomePage = 'HomePage',
   SavePage = 'SavePage',
+  LoadPage = 'LoadPage',
 }
 
 const Index: React.FC<{
   className?: string;
 }> = (props) => {
   let {message} = App.useApp();
-  let [route, setRoute] = useState<RouteType>(RouteType.LockPage);
+  let [route, setRoute] = useState<RouteType>(RouteType.LoadPage);
   const event$ = useEventEmitter<Message>();
   let $getLock = useRequest(AppService.getLock, {
     onSuccess: (lock) => setRoute(lock?.locked ? RouteType.LockPage : RouteType.HomePage),
@@ -64,6 +65,10 @@ const Index: React.FC<{
     {route === RouteType.HomePage && <HomePage className={styles.page} event$={event$}/>}
     {route === RouteType.LockPage && <LockPage className={styles.page} event$={event$}/>}
     {route === RouteType.SavePage && <SavePage className={styles.page} event$={event$}/>}
+    {route === RouteType.LoadPage &&
+      <div className={styles.page} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <Spin/>
+      </div>}
   </>;
 }
 export default function () {

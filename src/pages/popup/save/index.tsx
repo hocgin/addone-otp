@@ -53,7 +53,7 @@ const Index: React.FC<{
         </Form.Item>
         <Form.Item label='位数' name="digits">
           <Radio.Group buttonStyle="solid">
-            {[6, 8].map(item => <Radio.Button value={item}>{item}位</Radio.Button>)}
+            {[5, 6, 8].map(item => <Radio.Button value={item}>{item}位</Radio.Button>)}
           </Radio.Group>
         </Form.Item>
         <Form.Item label='算法' name="algorithm">

@@ -14,6 +14,7 @@ export enum MessageType {
   ResetLock = 'ResetLock',
   GoHomePage = 'GoHomePage',
   ScanPageImage = 'ScanPageImage',
+  ScanImageUrl = 'ScanImageUrl',
 }
 
 export interface Message {
@@ -26,4 +27,8 @@ export type DataType = (StoreOtpOptions & TokenInfo) | undefined;
 export interface Lock {
   locked: boolean,
   passwd?: string
+}
+
+export enum ContextMenusId {
+  ClickScanImage = 'ClickScanImage'
 }

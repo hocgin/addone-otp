@@ -17,7 +17,7 @@ const Index: React.FC<{
     onError: e => messageApi.error(`${e?.message}`),
     onSuccess: () => messageApi.success(`保存成功`),
   });
-  let onMessage = (message: Message, sender: any, sendResponse: any) => {
+  let onMessage = async (message: Message, sender: any, sendResponse: any) => {
     console.log('页面接收到消息[Content]', message);
     if (message.type === MessageType.ScanPageImage) {
       new ScreenShot({
@@ -30,6 +30,16 @@ const Index: React.FC<{
           }).catch(_ => messageApi.error('扫描失败'));
         },
       });
+    } else if (message.type === MessageType.ScanImageUrl) {
+      let url = message?.value;
+      if (`${url}`.includes('http')) {
+        let response = await fetch(url);
+        url = await response.blob();
+      }
+      QrScanner.scanImage(url, {}).then((scanResult: any) => {
+        console.log('扫描内容', scanResult);
+        $save.runAsync(TwoFaKit.keyUriToStoreOptions(scanResult))
+      }).catch(_ => messageApi.error('扫描失败'));
     }
     return true;
   };
