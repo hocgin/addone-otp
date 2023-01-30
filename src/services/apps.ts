@@ -3,23 +3,17 @@ import {LangKit} from "@/_utils";
 import {StoreOtpOptions, TwoFaKit} from "@/_utils/_2fa";
 import {DataType, Lock} from "@/_types";
 import {v4 as uuidv4} from 'uuid';
+import icons from '@/_utils/icons.json'
+import memoizeOne from 'memoize-one'
 
 let STORAGE_KEY = `OTP_LIST`;
 let LOCK_KEY = `LOCK_KEY`;
 export default class OptService {
+  static _getWebSiteImageUrl = memoizeOne((title) => Object.entries(icons).find((item) => title.includes(item?.[0]))?.[1] ?? `https://cdn.hocgin.top/file/lock.png`)
 
   static getWebSiteImageUrl(data: DataType) {
     let title = `${data?.label}`.toLowerCase();
-    if (title.includes('github')) {
-      return `https://cdn.hocgin.top/file/github-mark.png`;
-    } else if (title.includes('npm')) {
-      return `https://cdn.hocgin.top/file/npm_logo.png`;
-    } else if (title.includes('微软') || title.includes(`microsoft`)) {
-      return `https://cdn.hocgin.top/file/MSFT.png`
-    } else if (title.includes('google')) {
-      return `https://cdn.hocgin.top/file/google_logo.png`;
-    }
-    return `https://cdn.hocgin.top/file/lock.png`;
+    return OptService._getWebSiteImageUrl(title);
   }
 
   static async save(values: StoreOtpOptions) {

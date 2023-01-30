@@ -24,7 +24,7 @@ export const PopupItem: React.FC<{
     <div className={styles.itemBox}>
       <div className={classnames(styles.item, {})}>
         <div className={styles.logo}>
-          <Avatar size={40} src={OptService.getWebSiteImageUrl(item)}/>
+          <Avatar size={40} src={OptService.getWebSiteImageUrl(item)} shape='square'/>
         </div>
         <div className={styles.content}>
           <div>{item?.label}</div>
