@@ -1,4 +1,4 @@
-import {storageKit} from "@hocgin/browser-addone-kit";
+import {cloudKit} from "@hocgin/browser-addone-kit";
 import {LangKit} from "@/_utils";
 import {StoreOtpOptions, TwoFaKit} from "@/_utils/_2fa";
 import {DataType, Lock} from "@/_types";
@@ -32,7 +32,7 @@ export default class OptService {
     });
     // @ts-ignore
     list = LangKit.distinct(list as StoreOtpOptions[], e => e?.id);
-    await storageKit.setAsync(STORAGE_KEY as any, list);
+    await cloudKit.setAsync(STORAGE_KEY as any, list);
   }
 
   static async scroll(filter: any = {}, limit: number = 20, nextId: any = undefined) {
@@ -61,7 +61,7 @@ export default class OptService {
   }
 
   static async listAll(): Promise<StoreOtpOptions[]> {
-    let list = await storageKit.getAsync(STORAGE_KEY as any);
+    let list = await cloudKit.getAsync(STORAGE_KEY as any);
     return list ?? [];
   }
 
@@ -76,13 +76,13 @@ export default class OptService {
         ...(e.id === id ? update : {})
       }
     });
-    await storageKit.setAsync(STORAGE_KEY as any, list);
+    await cloudKit.setAsync(STORAGE_KEY as any, list);
   }
 
 
   static async removeById(id: string) {
     let list = await OptService.listAll();
-    await storageKit.setAsync(STORAGE_KEY as any, list.filter(e => `${id}` !== `${e.id}`));
+    await cloudKit.setAsync(STORAGE_KEY as any, list.filter(e => `${id}` !== `${e.id}`));
   }
 
   static async saveBatchStore(storeOtp: StoreOtpOptions[] = []) {
@@ -100,7 +100,7 @@ export default class OptService {
    * 获取锁信息
    */
   static async getLock() {
-    return (await storageKit.getAsync(LOCK_KEY as any) ?? {locked: false}) as Lock;
+    return (await cloudKit.getAsync(LOCK_KEY as any) ?? {locked: false}) as Lock;
   }
 
   /**
@@ -110,12 +110,12 @@ export default class OptService {
    */
   static async locked(locked: boolean = false, passwd?: string): Promise<[boolean, string]> {
     if (locked) {
-      await storageKit.setAsync(LOCK_KEY as any, {locked, passwd} as Lock);
+      await cloudKit.setAsync(LOCK_KEY as any, {locked, passwd} as Lock);
       return [true, 'ok'];
     } else {
       let lock = await OptService.getLock();
       if (!lock?.passwd || lock.passwd === passwd) {
-        await storageKit.remove(LOCK_KEY as any);
+        await cloudKit.remove(LOCK_KEY as any);
         return [true, 'ok'];
       }
       return [false, `密码错误`];
@@ -123,7 +123,7 @@ export default class OptService {
   }
 
   static async resetLock() {
-    await storageKit.remove(LOCK_KEY as any);
-    await storageKit.remove(STORAGE_KEY as any);
+    await cloudKit.remove(LOCK_KEY as any);
+    await cloudKit.remove(STORAGE_KEY as any);
   }
 }
