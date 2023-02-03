@@ -10,6 +10,10 @@ import memoizeOne from 'memoize-one'
 let STORAGE_KEY = `OTP_LIST`;
 let LOCK_KEY = `LOCK_KEY`;
 
+/**
+ * 两个版本后移除
+ * 0.0.9 加入
+ */
 async function ifSyncCloud() {
   let values1 = await storageKit.getAsync(STORAGE_KEY as any) ?? [];
   if (values1.length > 0) {
