@@ -1,4 +1,4 @@
-import {cloudKit} from "@hocgin/browser-addone-kit";
+import {cloudKit, storageKit} from "@hocgin/browser-addone-kit";
 import {LangKit} from "@/_utils";
 import {StoreOtpOptions, TwoFaKit} from "@/_utils/_2fa";
 import {DataType, Lock} from "@/_types";
@@ -6,8 +6,23 @@ import {v4 as uuidv4} from 'uuid';
 import icons from '@/_utils/icons.json'
 import memoizeOne from 'memoize-one'
 
+
 let STORAGE_KEY = `OTP_LIST`;
 let LOCK_KEY = `LOCK_KEY`;
+
+async function ifSyncCloud() {
+  let values1 = await storageKit.getAsync(STORAGE_KEY as any) ?? [];
+  if (values1.length > 0) {
+    await OptService.saveBatchStore(values1);
+    await storageKit.remove(STORAGE_KEY as any);
+  }
+  let values2 = await storageKit.getAsync(LOCK_KEY as any);
+  if (values2) {
+    await cloudKit.setAsync(LOCK_KEY as any, values2);
+    await storageKit.remove(LOCK_KEY as any)
+  }
+}
+
 export default class OptService {
   static _getWebSiteImageUrl = memoizeOne((title) => Object.entries(icons).find((item) => title.includes(item?.[0]))?.[1])
 
@@ -26,11 +41,9 @@ export default class OptService {
     }
     let list = await OptService.listAll();
     list.push({
-      // @ts-ignore
-      id: uuidv4(),
-      ...values
+      ...values,
+      id: values?.id ?? uuidv4(),
     });
-    // @ts-ignore
     list = LangKit.distinct(list as StoreOtpOptions[], e => e?.id);
     await cloudKit.setAsync(STORAGE_KEY as any, list);
   }
@@ -61,6 +74,7 @@ export default class OptService {
   }
 
   static async listAll(): Promise<StoreOtpOptions[]> {
+    await ifSyncCloud()
     let list = await cloudKit.getAsync(STORAGE_KEY as any);
     return list ?? [];
   }
