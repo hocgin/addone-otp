@@ -31,6 +31,7 @@ export const PopupItem: React.FC<{
           <div>{item?.issuer}</div>
         </div>
         <div className={styles.token} onClick={() => {
+          navigator?.clipboard?.writeText?.(`${item?.token}`);
           message.success(`复制成功`);
           setDeploy(1000);
         }}>
