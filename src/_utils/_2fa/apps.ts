@@ -57,7 +57,7 @@ export default class Service {
       console.log(`保存失败: ${tokenData.message}`)
       throw new Error(`保存失败: 密钥非标准(RFC 4648)的 Base64`)
     }
-    let list = await Service.listAll();
+    let list = await Service.listAll(false);
     list.push({
       ...values,
       id: values?.id ?? uuid(),
@@ -85,14 +85,19 @@ export default class Service {
       .sort((a, b) => LangKit.sortDesc(a.pin ? 1 : 0, b.pin ? 1 : 0));
   }
 
-  static async listAll(): Promise<StoreOtpOptions[]> {
-    await ifSyncCloud()
+  static async listAll(hook: boolean = true): Promise<StoreOtpOptions[]> {
+    if (hook) {
+      await ifSyncCloud();
+    }
     let list = await getRemoteStorage().getAsync(STORAGE_KEY as any);
-    return ifEmptyAddTest(list ?? []);
+    if (hook) {
+      list = ifEmptyAddTest(list ?? []);
+    }
+    return list;
   }
 
   static async get(id: string) {
-    return (await Service.listAll() || []).find((e: any) => e.id === id) as StoreOtpOptions;
+    return (await Service.listAll(false) || []).find((e: any) => e.id === id) as StoreOtpOptions;
   }
 
   static async getWithToken(id: string) {
@@ -100,7 +105,7 @@ export default class Service {
   }
 
   static async updateById(id: string, update: any = {}) {
-    let list = (await Service.listAll()).map(e => {
+    let list = (await Service.listAll(false)).map(e => {
       return {
         ...e,
         ...(e.id === id ? update : {})
@@ -111,7 +116,7 @@ export default class Service {
 
 
   static async removeById(id: string) {
-    let list = await Service.listAll();
+    let list = await Service.listAll(false);
     await getRemoteStorage().setAsync(STORAGE_KEY as any, list.filter(e => `${id}` !== `${e.id}`));
   }
 
