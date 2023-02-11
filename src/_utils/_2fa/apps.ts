@@ -80,7 +80,7 @@ export default class Service {
 
   static async listAllData(filter?: any): Promise<DataType[]> {
     let keyword = filter?.keyword;
-    return (await this.listAll()).map(Service.appendToken)
+    return (await Service.listAll()).map(Service.appendToken)
       .filter((e) => !keyword || `${e.issuer}`.includes(keyword) || `${e.label}`.includes(keyword))
       .sort((a, b) => LangKit.sortDesc(a.pin ? 1 : 0, b.pin ? 1 : 0));
   }
@@ -93,7 +93,7 @@ export default class Service {
     if (hook) {
       list = ifEmptyAddTest(list ?? []);
     }
-    return list;
+    return list ?? [];
   }
 
   static async get(id: string) {
