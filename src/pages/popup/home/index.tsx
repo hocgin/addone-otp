@@ -8,6 +8,7 @@ import {
   FilterOutlined,
   LockOutlined,
   PlusOutlined,
+  WechatOutlined,
   QrcodeOutlined
 } from "@ant-design/icons";
 import {PopupItem, StoreLink} from "@/components";
@@ -174,8 +175,11 @@ const Index: React.FC<{
       </Space>
       <Space className={styles.siderTool}>
         <StoreLink/>
-        {/*<SettingOutlined disabled={true}*/}
-        {/*                 onClick={_ => WebExtension.tabs.create({url: WebExtension.kit.getPageUrl('/$options.html')})}/>*/}
+        <Popover
+          placement="top"
+          content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80} alt="小程序"/>}>
+          <WechatOutlined style={{color: `#67BD68`}}/>
+        </Popover>
         <Popover
           placement="topRight"
           content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>
