@@ -174,9 +174,7 @@ const Index: React.FC<{
         </Popconfirm>
       </Space>
       <Space className={styles.siderTool}>
-        <Popover
-          placement="top"
-          content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80} alt="小程序"/>}>
+        <Popover content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80} alt="小程序"/>}>
           <WechatOutlined style={{color: `#67BD68`}}/>
         </Popover>
         <StoreLink/>
