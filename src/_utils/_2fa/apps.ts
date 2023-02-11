@@ -55,7 +55,7 @@ export default class Service {
     let tokenData = TwoFaKit.getToken(values);
     if (!tokenData.isValid) {
       console.log(`保存失败: ${tokenData.message}`)
-      throw new Error(`保存失败: 密钥非标准(RFC 4648)的 Base64`)
+      throw new Error(`密钥非标准(RFC 4648)的 Base64`)
     }
     let list = await Service.listAll(false);
     list.push({
