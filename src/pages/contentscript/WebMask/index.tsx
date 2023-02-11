@@ -6,7 +6,7 @@ import QrScanner from "qr-scanner";
 import {message} from "antd";
 import {TwoFaKit} from "@/_utils/_2fa";
 import {useRequest} from "ahooks";
-import AppService from "@/services/apps";
+import AppService from "@/_utils/_2fa/apps";
 
 const Index: React.FC<{
   className?: string;

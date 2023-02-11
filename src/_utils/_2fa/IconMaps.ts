@@ -1,4 +1,4 @@
-{
+export default {
   "1and1": "https://cdn.hocgin.top/icons/1and1.png",
   "1password": "https://cdn.hocgin.top/icons/1password.png",
   "3cx_dark": "https://cdn.hocgin.top/icons/3cx_dark.png",

@@ -8,6 +8,7 @@ specifiers:
   '@hocgin/umijs-plugin-browser-addone': ^1.0.93
   '@types/jquery': ^3.5.16
   '@types/mockjs': ^1.0.6
+  '@types/qrcode': ^1.5.0
   '@types/react': ^18.x
   '@types/react-dom': ^18.x
   '@types/uuid': ^9.0.0
@@ -38,6 +39,7 @@ dependencies:
   '@hocgin/browser-addone-kit': 2.0.29_2qv7w2fkrguai4yfjvpr3cdmqq
   '@hocgin/hkit': 2.0.29_dayjs@1.11.7
   '@hocgin/ui': 5.0.17_zpmnuphfpz56gkdypwipxvmvme
+  '@types/qrcode': 1.5.0
   antd: 5.1.2_biqbaboplfbrettd7655fr4n2y
   classnames: 2.3.2
   jquery: 3.6.3
@@ -2098,7 +2100,6 @@ packages:
 
   /@types/node/18.11.17:
     resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2118,6 +2119,12 @@ packages:
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: true
+
+  /@types/qrcode/1.5.0:
+    resolution: {integrity: sha512-x5ilHXRxUPIMfjtM+1vf/GPTRWZ81nqscursm5gMznJeK9M0YnZ1c3bEvRLQ0zSSgedLx1J6MGL231ObQGGhaA==}
+    dependencies:
+      '@types/node': 18.11.17
+    dev: false
 
   /@types/react-dom/16.9.17:
     resolution: {integrity: sha512-qSRyxEsrm5btPXnowDOs5jSkgT8ldAA0j6Qp+otHUh+xHzy3sXmgNfyhucZjAjkgpdAUw9rJe0QRtX/l+yaS4g==}

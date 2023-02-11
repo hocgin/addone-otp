@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useEventEmitter, useRequest} from "ahooks";
 import styles from './index.less';
 import {Theme} from "@/components";
-import AppService from '@/services/apps';
+import AppService from '@/_utils/_2fa/apps';
 import {Message, MessageType} from "@/_types";
 import HomePage from "@/pages/popup/home";
 import LockPage from "@/pages/popup/lock";

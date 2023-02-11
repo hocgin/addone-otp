@@ -6,7 +6,7 @@ import {Message, MessageType} from "@/_types";
 import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {Algorithm, Strategy} from "@/_utils/_2fa";
 import {useBoolean, useRequest} from "ahooks";
-import AppService from "@/services/apps";
+import AppService from "@/_utils/_2fa/apps";
 
 let _initialValues = {
   type: `TOTP`,

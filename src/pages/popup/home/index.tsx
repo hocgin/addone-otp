@@ -8,8 +8,7 @@ import {
   FilterOutlined,
   LockOutlined,
   PlusOutlined,
-  QrcodeOutlined,
-  SettingOutlined
+  QrcodeOutlined
 } from "@ant-design/icons";
 import {PopupItem, StoreLink} from "@/components";
 import {DataType, Message, MessageType} from "@/_types";
@@ -18,8 +17,8 @@ import QrScanner from "qr-scanner";
 import {LangKit} from "@/_utils";
 import {WebExtension} from "@hocgin/browser-addone-kit";
 import {useBoolean, useLocalStorageState, useRequest} from "ahooks";
-import AppService from "@/services/apps";
-import OptService from "@/services/apps";
+import AppService from "@/_utils/_2fa/apps";
+import OptService from "@/_utils/_2fa/apps";
 import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {TwoFaKit} from "@/_utils/_2fa";
 

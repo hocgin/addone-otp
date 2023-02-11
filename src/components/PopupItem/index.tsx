@@ -5,7 +5,7 @@ import {DataType, Message, MessageType,} from "@/_types";
 import {EventEmitter} from 'ahooks/lib/useEventEmitter';
 import {useRafTimeout} from "ahooks";
 import {LinkOutlined, PushpinFilled, DeleteOutlined, WarningOutlined, CheckOutlined} from '@ant-design/icons';
-import OptService from "@/services/apps";
+import OptService from "@/_utils/_2fa/apps";
 import QrCodeButton from "./QrCodeButton";
 import classnames from "classnames";
 

@@ -1,4 +1,6 @@
-import {StoreOtpOptions, TokenInfo} from "@/_utils/_2fa";
+import {
+  DataType as _DataType
+} from "@/_utils/_2fa/types";
 
 export enum MessageType {
   Pin = 'Pin',
@@ -22,12 +24,7 @@ export interface Message {
   value?: any
 }
 
-export type DataType = (StoreOtpOptions & TokenInfo) | undefined;
-
-export interface Lock {
-  locked: boolean,
-  passwd?: string
-}
+export type DataType = _DataType;
 
 export enum ContextMenusId {
   ClickScanImage = 'ClickScanImage'

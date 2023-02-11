@@ -1,11 +1,9 @@
 import qs from "query-string";
 import {LangKit} from "@/_utils/lang";
-// @ts-ignore
 import qrcode from "qrcode";
 // @ts-ignore
 import {HOTP, TOTP} from "./lib";
-import dayjs from "dayjs";
-import {WebExtension} from "@hocgin/browser-addone-kit";
+import {downloadText} from "./platform";
 
 export let defaultHOTP = HOTP.defaults;
 export let defaultTOTP = TOTP.defaults;
@@ -240,11 +238,7 @@ export class TwoFaKit {
   static saveFile(text: string, filename: string) {
     return new Promise<string>((resolve, reject) => {
       try {
-        let url = URL.createObjectURL(new Blob([text], {
-          type: "application/json",
-        }));
-        WebExtension.downloads.download({url, filename: `${dayjs().format('YYYYMMDD_HHmmss')}_${filename}`});
-        resolve(url);
+        resolve(downloadText(text, filename));
       } catch (e) {
         reject(e);
       }
