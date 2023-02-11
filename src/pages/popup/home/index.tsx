@@ -178,9 +178,8 @@ const Index: React.FC<{
           <WechatOutlined style={{color: `#67BD68`}}/>
         </Popover>
         <StoreLink/>
-        <Popover
-          placement="topRight"
-          content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>
+        <Popover placement="topRight"
+                 content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>
           <QrcodeOutlined/>
         </Popover>
       </Space>
