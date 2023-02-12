@@ -12,7 +12,7 @@ import {
   QrcodeOutlined
 } from "@ant-design/icons";
 import {PopupItem, StoreLink} from "@/components";
-import {DataType, Message, MessageType} from "@/_types";
+import {ContextMenusId, DataType, Message, MessageType} from "@/_types";
 import UploadFile from "@/pages/popup/UploadFile";
 import QrScanner from "qr-scanner";
 import {LangKit} from "@/_utils";
@@ -52,14 +52,17 @@ const Index: React.FC<{
       $listAllData.refresh();
       message.success(`保存成功`);
     },
-  }), $removeById = useRequest(AppService.removeById, {
+  }), $removeById = useRequest(async id => {
+    await AppService.removeById(id);
+    WebExtension.contextMenus.remove(`${ContextMenusId.FillPrefix}${id}`);
+  }, {
     manual: true,
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
       message.success(`删除成功`);
     },
-  })
+  });
   let onMessage = async (message: Message) => {
     console.log('消息接收(HOME)', message);
     if (message?.type === MessageType.Pin) {

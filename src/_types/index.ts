@@ -17,6 +17,8 @@ export enum MessageType {
   GoHomePage = 'GoHomePage',
   ScanPageImage = 'ScanPageImage',
   ScanImageUrl = 'ScanImageUrl',
+  InsertEditableToken = 'InsertEditableToken',
+  ErrorMessage = 'ErrorMessage',
 }
 
 export interface Message {
@@ -27,5 +29,7 @@ export interface Message {
 export type DataType = _DataType;
 
 export enum ContextMenusId {
-  ClickScanImage = 'ClickScanImage'
+  ClickScanImage = 'ClickScanImage',
+  Separator = 'Separator',
+  FillPrefix = 'fill-',
 }

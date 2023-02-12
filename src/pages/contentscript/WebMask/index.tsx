@@ -40,6 +40,12 @@ const Index: React.FC<{
         console.log('扫描内容', scanResult);
         $save.runAsync(TwoFaKit.keyUriToStoreOptions(scanResult))
       }).catch(_ => messageApi.error('扫描失败'));
+    } else if (message.type === MessageType.InsertEditableToken) {
+      // @ts-ignore
+      document.activeElement.value = `${message.value}`.trim();
+      console.log('当前聚焦的元素', document.activeElement, message.value);
+    } else if (message.type === MessageType.ErrorMessage) {
+      messageApi.error(`${message.value}`);
     }
     return true;
   };
