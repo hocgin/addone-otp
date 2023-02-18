@@ -1,4 +1,4 @@
-name: Deploy::Addone
+name: Deploy::Addone.firefox
 
 on:
   workflow_dispatch:
