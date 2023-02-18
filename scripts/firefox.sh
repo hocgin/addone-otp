@@ -6,7 +6,7 @@ oldstr='"background":{"service_worker":"background.js"}'
 path=$(cd `dirname $0`; pwd)
 rootPath=$(cd $path/..; pwd)
 filePath=$rootPath"/dist/manifest.json"
-newstr='"background":{"scripts":["background.js"],"persistent":true},"browser_specific_settings":{"gecko":{"id":"'$addoneid'","strict_min_version":"42.0"}}'
+newstr='"background":{"scripts":["background.js"]},"browser_specific_settings":{"gecko":{"id":"'$addoneid'","strict_min_version":"42.0"}}'
 
 echo "s/$oldstr/$newstr/g"
 
