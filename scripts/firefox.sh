@@ -10,5 +10,5 @@ newstr='"background":{"scripts":["background.js"],"persistent":true},"browser_sp
 
 echo "s/$oldstr/$newstr/g"
 
-#sed -i "s/$oldstr/$newstr/g" $filePath
-sed -i "" "s/$oldstr/$newstr/g" $filePath
+sed -i "s/$oldstr/$newstr/g" $filePath
+#sed -i "" "s/$oldstr/$newstr/g" $filePath
