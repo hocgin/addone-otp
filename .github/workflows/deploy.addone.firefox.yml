@@ -22,9 +22,9 @@ on:
       - '*.gitignore'
 
 env:
-  # UUID
+  # UUID addone_otp
   FIREFOX_APPID: ${{ secrets.FIREFOX_APPID }}
-  # KEY
+  # KEY user:13669368:948 / 8213f8c84127079bee228bcceb263092d38e904ad96ae61cf13236eb3adc3bf8
   FIREFOX_CLIENT_ID: ${{ secrets.FIREFOX_CLIENT_ID }}
   # SECRET
   FIREFOX_CLIENT_SECRET: ${{ secrets.FIREFOX_CLIENT_SECRET }}
