@@ -7,7 +7,7 @@ import AppsService from '@/_utils/_2fa/apps'
 let updateContextMenus = async () => {
   WebExtension.contextMenus.create({
     id: ContextMenusId.ClickScanImage,
-    title: '扫描二维码',
+    title: i18nKit.getMessage(`scan_qrcode` as any),
     contexts: ['image'],
   });
   let list = await AppsService.listAll();
@@ -17,7 +17,7 @@ let updateContextMenus = async () => {
   for (let item of list) {
     WebExtension.contextMenus.create({
       id: `${ContextMenusId.FillPrefix}${item.id}`,
-      title: `填充自 ${item.label}${(item.label && item.issuer) ? `/${item.issuer}` : (item.issuer ?? '')}`,
+      title: `${i18nKit.getMessage(`fill` as any)} ${item.label}${(item.label && item.issuer) ? `/${item.issuer}` : (item.issuer ?? '')}`,
       contexts: ['editable'],
     });
   }
@@ -37,6 +37,6 @@ WebExtension.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
       WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.InsertEditableToken, value: tokenInfo.token});
     }
   } catch (e: any) {
-    WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.ErrorMessage, value: `操作失败: ${e?.message}`});
+    WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.ErrorMessage, value: `${i18nKit.getMessage(`error` as any)}: ${e?.message}`});
   }
 });

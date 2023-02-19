@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {WebExtension} from "@hocgin/browser-addone-kit";
+import {i18nKit, WebExtension} from "@hocgin/browser-addone-kit";
 import {Message, MessageType} from "@/_types";
 import ScreenShot from "js-web-screen-shot";
 import QrScanner from "qr-scanner";
@@ -15,7 +15,7 @@ const Index: React.FC<{
   let $save = useRequest(AppService.save, {
     manual: true,
     onError: e => messageApi.error(`${e?.message}`),
-    onSuccess: () => messageApi.success(`保存成功`),
+    onSuccess: () => messageApi.success(i18nKit.getMessage('success' as any)),
   });
   let onMessage = async (message: Message, sender: any, sendResponse: any) => {
     console.log('页面接收到消息[Content]', message);
@@ -27,7 +27,7 @@ const Index: React.FC<{
           QrScanner.scanImage(base64Image, {}).then((scanResult: any) => {
             console.log('扫描内容', scanResult);
             $save.runAsync(TwoFaKit.keyUriToStoreOptions(scanResult))
-          }).catch(_ => messageApi.error('扫描失败'));
+          }).catch(_ => messageApi.error(i18nKit.getMessage('scan_error' as any)));
         },
       });
     } else if (message.type === MessageType.ScanImageUrl) {
@@ -39,7 +39,7 @@ const Index: React.FC<{
       QrScanner.scanImage(url, {}).then((scanResult: any) => {
         console.log('扫描内容', scanResult);
         $save.runAsync(TwoFaKit.keyUriToStoreOptions(scanResult))
-      }).catch(_ => messageApi.error('扫描失败'));
+      }).catch(_ => messageApi.error(i18nKit.getMessage('scan_error' as any)));
     } else if (message.type === MessageType.InsertEditableToken) {
       // @ts-ignore
       document.activeElement.value = `${message.value}`.trim();

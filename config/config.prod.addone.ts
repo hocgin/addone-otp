@@ -16,7 +16,7 @@ export default defineConfig({
     defaultLocale: 'en',
     icons: '../public/logo.png',
     action: {
-      defaultTitle: '下载器',
+      defaultTitle: '__MSG_extension_action_title__',
       defaultPopup: '@/pages/popup',
     },
     background: {

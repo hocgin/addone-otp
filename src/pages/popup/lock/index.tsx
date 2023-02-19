@@ -6,13 +6,13 @@ import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {QuestionCircleOutlined} from '@ant-design/icons';
 import styles from './index.less'
 import Logo from "./Logo";
+import {i18nKit} from "@hocgin/browser-addone-kit";
 
 const Index: React.FC<{
   className?: string;
   event$: EventEmitter<Message>,
 }> = ({className, event$}) => {
   let [passwd, setPasswd] = useState<string | undefined>();
-
   return (<div className={classnames(className, styles.page)}>
     <div className={styles.box}>
       <div className={styles.logo}>
@@ -20,17 +20,22 @@ const Index: React.FC<{
       </div>
       <div className={styles.input}>
         <Input.Group compact>
-          <Input.Password style={{width: 'calc(100% - 70px)'}} placeholder={`输入密码`}
+          <Input.Password style={{width: 'calc(100% - 70px)'}}
+                          placeholder={i18nKit.getMessage('input_password_placeholder' as any)}
                           value={passwd}
                           onChange={e => setPasswd(e?.target?.value)}/>
-          <Button type="primary" onClick={() => event$.emit({type: MessageType.UnLock, value: passwd})}>解锁</Button>
+          <Button type="primary" onClick={() => event$.emit({
+            type: MessageType.UnLock,
+            value: passwd
+          })} style={{paddingLeft: 9}}>{i18nKit.getMessage(`unlock` as any)}</Button>
         </Input.Group>
       </div>
       <div className={styles.resetRow}>
-        <Popconfirm title="警告" description="重置后会导致数据被清空" placement="bottomRight"
+        <Popconfirm title={i18nKit.getMessage('reset_password_title' as any)}
+                    description={i18nKit.getMessage('reset_password_desc' as any)} placement="bottomRight"
                     onConfirm={() => event$.emit({type: MessageType.ResetLock})}
                     icon={<QuestionCircleOutlined style={{color: 'red'}}/>}>
-          <Button type="link" danger>忘记密码?</Button>
+          <Button type="link" danger>{i18nKit.getMessage('forgot_password' as any)}</Button>
         </Popconfirm>
       </div>
     </div>

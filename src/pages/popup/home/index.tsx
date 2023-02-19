@@ -16,7 +16,7 @@ import {ContextMenusId, DataType, Message, MessageType} from "@/_types";
 import UploadFile from "@/pages/popup/UploadFile";
 import QrScanner from "qr-scanner";
 import {LangKit} from "@/_utils";
-import {WebExtension} from "@hocgin/browser-addone-kit";
+import {i18nKit, WebExtension} from "@hocgin/browser-addone-kit";
 import {useBoolean, useLocalStorageState, useRequest} from "ahooks";
 import AppService from "@/_utils/_2fa/apps";
 import OptService from "@/_utils/_2fa/apps";
@@ -50,7 +50,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(`保存成功`);
+      message.success(i18nKit.getMessage('success' as any));
     },
   }), $removeById = useRequest(async id => {
     await AppService.removeById(id);
@@ -60,7 +60,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(`删除成功`);
+      message.success(i18nKit.getMessage('success' as any));
     },
   });
   let onMessage = async (message: Message) => {
@@ -74,7 +74,7 @@ const Index: React.FC<{
     } else if (message?.type === MessageType.ImportBackup) {
       await OptService.saveBatchStore(message.value);
     } else if (message?.type === MessageType.ExportBackup) {
-      await TwoFaKit.saveFile(JSON.stringify(list), `备份文件.json`);
+      await TwoFaKit.saveFile(JSON.stringify(list), `file.json`);
     } else if (message?.type === MessageType.Delete) {
       await $removeById.runAsync(message.value);
     } else if (message?.type === MessageType.ScanPageQrCode) {
@@ -135,7 +135,7 @@ const Index: React.FC<{
           onClick: e => event$.emit({type: e.key} as any),
           items: [{
             key: MessageType.ScanPageQrCode,
-            label: '扫描二维码',
+            label: i18nKit.getMessage('scan_qrcode' as any),
           }, {
             key: `&${MessageType.UploadQrCode}`,
             label: <UploadFile
@@ -144,45 +144,48 @@ const Index: React.FC<{
                   .then((scanResult) => {
                     event$.emit({type: MessageType.UploadQrCode, value: scanResult});
                   })
-                  .catch(e => message.error(`扫描失败: ${e.message}`));
-              }}>上传二维码</UploadFile>,
+                  .catch(e => message.error(`${i18nKit.getMessage('error' as any)}: ${e.message}`));
+              }}>{i18nKit.getMessage('upload_qrcode' as any)}</UploadFile>,
           }, {
             key: MessageType.ManualInput,
-            label: '手动录入',
+            label: i18nKit.getMessage('manual_input' as any),
           }, {
             key: `&${MessageType.ImportBackup}`,
             label: <UploadFile onChange={async (file) => {
               LangKit.readFile(file.originFileObj as any)
                 .then((value) => event$.emit({type: MessageType.ImportBackup, value: JSON.parse(value as any)}))
-                .catch(e => message.error(`导入失败: ${e.message}`));
-            }}>导入备份</UploadFile>,
+                .catch(e => message.error(`${i18nKit.getMessage('error' as any)}: ${e.message}`));
+            }}>{i18nKit.getMessage('input_backup' as any)}</UploadFile>,
           }]
         }}>
           <Button size='small'>
             <Space>
-              新增
+              {i18nKit.getMessage('plus' as any)}
               <PlusOutlined/>
             </Space>
           </Button>
         </Dropdown>
-        <Tooltip title={`导出备份`}>
+        <Tooltip title={i18nKit.getMessage('export_backup' as any)}>
           <Button type="text" size="small" icon={<CloudDownloadOutlined/>}
                   onClick={() => event$.emit({type: MessageType.ExportBackup as any})}/>
         </Tooltip>
-        <Popconfirm title="设置密码"
-                    description={<Input.Password placeholder={`请输入密码`} value={passwd}
+        <Popconfirm title={i18nKit.getMessage('set_password' as any)}
+                    description={<Input.Password placeholder={i18nKit.getMessage('set_password_placeholder' as any)}
+                                                 value={passwd}
                                                  onChange={e => setPasswd(e.target?.value)}/>}
                     onConfirm={() => event$.emit({type: MessageType.Lock, value: passwd})}>
           <Button type="text" size="small" icon={<LockOutlined/>}/>
         </Popconfirm>
       </Space>
       <Space className={styles.siderTool}>
-        <Popover content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80} alt="小程序"/>}>
+        <Popover content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80}
+                                 alt={i18nKit.getMessage(`wx_mina_qrcode` as any)}/>}>
           <WechatOutlined style={{color: `#67BD68`}}/>
         </Popover>
         <StoreLink/>
         <Popover placement="topRight"
-                 content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80} alt="公众号"/>}>
+                 content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80}
+                                 alt={i18nKit.getMessage(`wx_gz_qrcode` as any)}/>}>
           <QrcodeOutlined/>
         </Popover>
       </Space>

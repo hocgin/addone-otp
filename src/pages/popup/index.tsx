@@ -8,6 +8,7 @@ import HomePage from "@/pages/popup/home";
 import LockPage from "@/pages/popup/lock";
 import SavePage from "@/pages/popup/save";
 import {App, Spin} from "antd";
+import {i18nKit} from "@hocgin/browser-addone-kit";
 
 enum RouteType {
   LockPage = 'LockPage',
@@ -29,7 +30,7 @@ const Index: React.FC<{
     onSuccess: (data: [boolean, string]) => {
       let result = data[0];
       if (result) {
-        message.success(`操作成功`);
+        message.success(i18nKit.getMessage(`success` as any));
         $getLock.refresh();
       } else {
         let errorMessage = data[1];
@@ -40,7 +41,7 @@ const Index: React.FC<{
     manual: true,
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
-      message.success(`重置成功`);
+      message.success(i18nKit.getMessage(`reset_success` as any));
       $getLock.refresh();
     },
   });
