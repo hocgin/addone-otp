@@ -52,7 +52,7 @@ const Index: React.FC<{
       $listAllData.refresh();
       message.success(i18nKit.getMessage('success' as any));
     },
-  }), $removeById = useRequest(async id => {
+  }), $removeById = useRequest(async (id: any) => {
     await AppService.removeById(id);
     WebExtension.contextMenus.remove(`${ContextMenusId.FillPrefix}${id}`);
   }, {

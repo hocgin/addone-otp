@@ -65,10 +65,10 @@ const Index: React.FC<{
                   options={Object.keys(Algorithm).map(key => ({
                     label: key,
                     value: (Algorithm as any)[key],
-                  }))}/>
+                  })) as any}/>
         </Form.Item>
       </>}
-      <Form.Item {...{wrapperCol: {offset: 8, span: 16}}}>
+      <Form.Item wrapperCol={{offset: 8, span: 16}}>
         <Button htmlType="submit" type="primary">{i18nKit.getMessage('save' as any)}</Button>
         <Button htmlType="button" onClick={onClickGoHome}
                 style={{margin: '0 8px'}}>{i18nKit.getMessage('back' as any)}</Button>
