@@ -4,6 +4,7 @@ import '@/request.config';
 import {ContextMenusId, MessageType} from "@/_types";
 import AppsService from '@/_utils/_2fa/apps'
 import Config from "@/config";
+import {stringify} from "query-string";
 
 let updateContextMenus = async () => {
   WebExtension.contextMenus.create({
