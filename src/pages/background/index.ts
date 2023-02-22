@@ -42,15 +42,6 @@ WebExtension.kit.serviceWorker({
     });
     return `https://logspot.hocgin.top/${projectId}?${queryStr}`;
   },
-  getUninstallURL: (extensionId: string, projectId: string) => {
-    let queryStr = stringify({
-      extensionId, projectId,
-      labels: projectId,
-      title: `SuggestionsOrQuestions/建议或反馈`,
-      uninstall: true
-    });
-    return `https://github.com/hocgin/feedback/issues/new?${queryStr}`;
-  },
 }, updateContextMenus);
 
 updateContextMenus();
