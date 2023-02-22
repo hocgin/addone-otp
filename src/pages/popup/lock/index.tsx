@@ -6,7 +6,7 @@ import {EventEmitter} from "ahooks/lib/useEventEmitter";
 import {QuestionCircleOutlined} from '@ant-design/icons';
 import styles from './index.less'
 import Logo from "./Logo";
-import {i18nKit} from "@hocgin/browser-addone-kit";
+import {I18nKit} from "@hocgin/browser-addone-kit";
 
 const Index: React.FC<{
   className?: string;
@@ -21,21 +21,21 @@ const Index: React.FC<{
       <div className={styles.input}>
         <Input.Group compact>
           <Input.Password style={{width: 'calc(100% - 70px)'}}
-                          placeholder={i18nKit.getMessage('input_password_placeholder' as any)}
+                          placeholder={I18nKit.getMessageOrDefault('input_password_placeholder' as any)}
                           value={passwd}
                           onChange={e => setPasswd(e?.target?.value)}/>
           <Button type="primary" onClick={() => event$.emit({
             type: MessageType.UnLock,
             value: passwd
-          })} style={{paddingLeft: 9}}>{i18nKit.getMessage(`unlock` as any)}</Button>
+          })} style={{paddingLeft: 9}}>{I18nKit.getMessageOrDefault(`unlock` as any)}</Button>
         </Input.Group>
       </div>
       <div className={styles.resetRow}>
-        <Popconfirm title={i18nKit.getMessage('reset_password_title' as any)}
-                    description={i18nKit.getMessage('reset_password_desc' as any)} placement="bottomRight"
+        <Popconfirm title={I18nKit.getMessageOrDefault('reset_password_title' as any)}
+                    description={I18nKit.getMessageOrDefault('reset_password_desc' as any)} placement="bottomRight"
                     onConfirm={() => event$.emit({type: MessageType.ResetLock})}
                     icon={<QuestionCircleOutlined style={{color: 'red'}}/>}>
-          <Button type="link" danger>{i18nKit.getMessage('forgot_password' as any)}</Button>
+          <Button type="link" danger>{I18nKit.getMessageOrDefault('forgot_password' as any)}</Button>
         </Popconfirm>
       </div>
     </div>

@@ -16,7 +16,7 @@ import {ContextMenusId, DataType, Message, MessageType} from "@/_types";
 import UploadFile from "@/pages/popup/UploadFile";
 import QrScanner from "qr-scanner";
 import {LangKit} from "@/_utils";
-import {i18nKit, WebExtension} from "@hocgin/browser-addone-kit";
+import {I18nKit, WebExtension} from "@hocgin/browser-addone-kit";
 import {useBoolean, useLocalStorageState, useRequest} from "ahooks";
 import AppService from "@/_utils/_2fa/apps";
 import OptService from "@/_utils/_2fa/apps";
@@ -50,7 +50,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(i18nKit.getMessage('success' as any));
+      message.success(I18nKit.getMessageOrDefault('success' as any));
     },
   }), $removeById = useRequest(async (id: any) => {
     await AppService.removeById(id);
@@ -60,7 +60,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(i18nKit.getMessage('success' as any));
+      message.success(I18nKit.getMessageOrDefault('success' as any));
     },
   });
   let onMessage = async (message: Message) => {
@@ -135,7 +135,7 @@ const Index: React.FC<{
           onClick: e => event$.emit({type: e.key} as any),
           items: [{
             key: MessageType.ScanPageQrCode,
-            label: i18nKit.getMessage('scan_qrcode' as any),
+            label: I18nKit.getMessageOrDefault('scan_qrcode' as any),
           }, {
             key: `&${MessageType.UploadQrCode}`,
             label: <UploadFile
@@ -144,33 +144,33 @@ const Index: React.FC<{
                   .then((scanResult) => {
                     event$.emit({type: MessageType.UploadQrCode, value: scanResult});
                   })
-                  .catch(e => message.error(`${i18nKit.getMessage('error' as any)}: ${e.message}`));
-              }}>{i18nKit.getMessage('upload_qrcode' as any)}</UploadFile>,
+                  .catch(e => message.error(`${I18nKit.getMessageOrDefault('error' as any)}: ${e.message}`));
+              }}>{I18nKit.getMessageOrDefault('upload_qrcode' as any)}</UploadFile>,
           }, {
             key: MessageType.ManualInput,
-            label: i18nKit.getMessage('manual_input' as any),
+            label: I18nKit.getMessageOrDefault('manual_input' as any),
           }, {
             key: `&${MessageType.ImportBackup}`,
             label: <UploadFile onChange={async (file) => {
               LangKit.readFile(file.originFileObj as any)
                 .then((value) => event$.emit({type: MessageType.ImportBackup, value: JSON.parse(value as any)}))
-                .catch(e => message.error(`${i18nKit.getMessage('error' as any)}: ${e.message}`));
-            }}>{i18nKit.getMessage('input_backup' as any)}</UploadFile>,
+                .catch(e => message.error(`${I18nKit.getMessageOrDefault('error' as any)}: ${e.message}`));
+            }}>{I18nKit.getMessageOrDefault('input_backup' as any)}</UploadFile>,
           }]
         }}>
           <Button size='small'>
             <Space>
-              {i18nKit.getMessage('plus' as any)}
+              {I18nKit.getMessageOrDefault('plus' as any)}
               <PlusOutlined/>
             </Space>
           </Button>
         </Dropdown>
-        <Tooltip title={i18nKit.getMessage('export_backup' as any)}>
+        <Tooltip title={I18nKit.getMessageOrDefault('export_backup' as any)}>
           <Button type="text" size="small" icon={<CloudDownloadOutlined/>}
                   onClick={() => event$.emit({type: MessageType.ExportBackup as any})}/>
         </Tooltip>
-        <Popconfirm title={i18nKit.getMessage('set_password' as any)}
-                    description={<Input.Password placeholder={i18nKit.getMessage('set_password_placeholder' as any)}
+        <Popconfirm title={I18nKit.getMessageOrDefault('set_password' as any)}
+                    description={<Input.Password placeholder={I18nKit.getMessageOrDefault('set_password_placeholder' as any)}
                                                  value={passwd}
                                                  onChange={e => setPasswd(e.target?.value)}/>}
                     onConfirm={() => event$.emit({type: MessageType.Lock, value: passwd})}>
@@ -179,13 +179,13 @@ const Index: React.FC<{
       </Space>
       <Space className={styles.siderTool}>
         <Popover content={<Image src="https://cdn.hocgin.top/icons/minaapp_2fa.jpg" width={80}
-                                 alt={i18nKit.getMessage(`wx_mina_qrcode` as any)}/>}>
+                                 alt={I18nKit.getMessageOrDefault(`wx_mina_qrcode` as any)}/>}>
           <WechatOutlined style={{color: `#67BD68`}}/>
         </Popover>
         <StoreLink/>
         <Popover placement="topRight"
                  content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80}
-                                 alt={i18nKit.getMessage(`wx_gz_qrcode` as any)}/>}>
+                                 alt={I18nKit.getMessageOrDefault(`wx_gz_qrcode` as any)}/>}>
           <QrcodeOutlined/>
         </Popover>
       </Space>

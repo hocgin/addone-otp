@@ -1,4 +1,4 @@
-import {i18nKit, WebExtension} from '@hocgin/browser-addone-kit';
+import {I18nKit, WebExtension} from '@hocgin/browser-addone-kit';
 import {ServiceWorkerOptions} from '@hocgin/browser-addone-kit/dist/esm/browser/serviceWorker';
 import '@/request.config';
 import {ContextMenusId, MessageType} from "@/_types";
@@ -9,7 +9,7 @@ import {stringify} from "query-string";
 let updateContextMenus = async () => {
   WebExtension.contextMenus.create({
     id: ContextMenusId.ClickScanImage,
-    title: i18nKit.getMessage(`scan_qrcode` as any),
+    title: I18nKit.getMessageOrDefault(`scan_qrcode` as any),
     contexts: ['image'],
   });
   let list = await AppsService.listAll();
@@ -19,7 +19,7 @@ let updateContextMenus = async () => {
   for (let item of list) {
     WebExtension.contextMenus.create({
       id: `${ContextMenusId.FillPrefix}${item.id}`,
-      title: `${i18nKit.getMessage(`fill` as any)} ${item.label}${(item.label && item.issuer) ? `/${item.issuer}` : (item.issuer ?? '')}`,
+      title: `${I18nKit.getMessageOrDefault(`fill` as any)} ${item.label}${(item.label && item.issuer) ? `/${item.issuer}` : (item.issuer ?? '')}`,
       contexts: ['editable'],
     });
   }
@@ -67,7 +67,7 @@ WebExtension.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
   } catch (e: any) {
     WebExtension.tabs.sendMessage(tab?.id, {
       type: MessageType.ErrorMessage,
-      value: `${i18nKit.getMessage(`error` as any)}: ${e?.message}`
+      value: `${I18nKit.getMessageOrDefault(`error` as any)}: ${e?.message}`
     });
   }
 });

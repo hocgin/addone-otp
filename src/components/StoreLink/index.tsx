@@ -1,7 +1,7 @@
 import React from 'react';
 import {Tag} from 'antd';
 import {PlatformKit} from '@hocgin/hkit';
-import {i18nKit, WebExtension} from '@hocgin/browser-addone-kit';
+import {I18nKit, WebExtension} from '@hocgin/browser-addone-kit';
 
 export const StoreLink: React.FC<{
   className?: string;
@@ -12,7 +12,7 @@ export const StoreLink: React.FC<{
       style={{cursor: 'pointer'}}
       onClick={WebExtension.kit.openRecommendURL}
     >
-      {i18nKit.getMessage(`recommend` as any)}
+      {I18nKit.getMessageOrDefault(`recommend` as any)}
     </Tag>
   );
 };

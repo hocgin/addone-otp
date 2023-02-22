@@ -8,7 +8,7 @@ import {LinkOutlined, PushpinFilled, DeleteOutlined, WarningOutlined, CheckOutli
 import OptService from "@/_utils/_2fa/apps";
 import QrCodeButton from "./QrCodeButton";
 import classnames from "classnames";
-import {i18nKit} from "@hocgin/browser-addone-kit";
+import {I18nKit} from "@hocgin/browser-addone-kit";
 
 export const PopupItem: React.FC<{
   className?: string;
@@ -33,7 +33,7 @@ export const PopupItem: React.FC<{
         </div>
         <div className={styles.token} onClick={() => {
           navigator?.clipboard?.writeText?.(`${item?.token}`);
-          message.success(i18nKit.getMessage('success' as any));
+          message.success(I18nKit.getMessageOrDefault('success' as any));
           setDeploy(1000);
         }}>
           <div className={classnames(styles.tokenCode, {
@@ -54,21 +54,21 @@ export const PopupItem: React.FC<{
                 onClick={() => {
                   navigator?.clipboard?.writeText?.(`${item?.keyUri}`);
                   setDeploy(1000);
-                  message.success(i18nKit.getMessage('success' as any));
-                }}>{i18nKit.getMessage('copy_link' as any)}</Button>
+                  message.success(I18nKit.getMessageOrDefault('success' as any));
+                }}>{I18nKit.getMessageOrDefault('copy_link' as any)}</Button>
         <QrCodeButton value={item?.keyUri}/>
-        <Popconfirm title={i18nKit.getMessage('del_confirm_title' as any)}
-                    description={i18nKit.getMessage('del_confirm_desc' as any)}
+        <Popconfirm title={I18nKit.getMessageOrDefault('del_confirm_title' as any)}
+                    description={I18nKit.getMessageOrDefault('del_confirm_desc' as any)}
                     onConfirm={() => event$.emit({type: MessageType.Delete, value: item?.id})}
                     placement="bottomRight"
                     showCancel={false}>
-          <Button type='text' icon={<DeleteOutlined/>} danger>{i18nKit.getMessage('del' as any)}</Button>
+          <Button type='text' icon={<DeleteOutlined/>} danger>{I18nKit.getMessageOrDefault('del' as any)}</Button>
         </Popconfirm>
       </div>
     </div>
     <Space className={styles.state} size={4}>
       {!item?.isValid && <>
-        <Tooltip title={`${i18nKit.getMessage('config_error' as any)}:${item?.message}`} placement="bottomRight">
+        <Tooltip title={`${I18nKit.getMessageOrDefault('config_error' as any)}:${item?.message}`} placement="bottomRight">
           <WarningOutlined className={classnames(styles.warn)}/>
         </Tooltip>
       </>}

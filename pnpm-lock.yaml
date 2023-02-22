@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@hocgin/browser-addone-kit': ^2.0.40
-  '@hocgin/hkit': ^2.0.40
-  '@hocgin/mock-kit': ^2.0.40
+  '@hocgin/browser-addone-kit': ^2.0.42
+  '@hocgin/hkit': ^2.0.42
+  '@hocgin/mock-kit': ^2.0.42
   '@hocgin/ui': ^5.0.20
   '@hocgin/umijs-plugin-browser-addone': ^1.0.93
   '@types/jquery': ^3.5.16
@@ -36,9 +36,9 @@ specifiers:
   yorkie: ^2.0.0
 
 dependencies:
-  '@hocgin/browser-addone-kit': 2.0.40_2omntpzqv3snsbay4evmzihlw4
-  '@hocgin/hkit': 2.0.40_dayjs@1.11.7
-  '@hocgin/ui': 5.0.20_xd35m3fdm4agwz6lin3ne4x6qe
+  '@hocgin/browser-addone-kit': 2.0.42_uwhne266dkejezmfk5wyv5g2yi
+  '@hocgin/hkit': 2.0.42_dayjs@1.11.7
+  '@hocgin/ui': 5.0.20_5qpvwfl5nwpuavxa7y4eyg6b34
   '@types/qrcode': 1.5.0
   antd: 5.2.2_biqbaboplfbrettd7655fr4n2y
   classnames: 2.3.2
@@ -53,7 +53,7 @@ dependencies:
   uuid: 9.0.0
 
 devDependencies:
-  '@hocgin/mock-kit': 2.0.40_biqbaboplfbrettd7655fr4n2y
+  '@hocgin/mock-kit': 2.0.42_biqbaboplfbrettd7655fr4n2y
   '@hocgin/umijs-plugin-browser-addone': 1.0.93_2frbxtmzgdfbmo3mvpvo7kg544
   '@types/jquery': 3.5.16
   '@types/mockjs': 1.0.7
@@ -1043,27 +1043,27 @@ packages:
     deprecated: the package is rather renamed to @formatjs/ecma-abstract with some changes in functionality (primarily selectUnit is removed and we don't plan to make any further changes to this package
     dev: true
 
-  /@hocgin/ahooks-kit/2.0.16_2omntpzqv3snsbay4evmzihlw4:
+  /@hocgin/ahooks-kit/2.0.16_uwhne266dkejezmfk5wyv5g2yi:
     resolution: {integrity: sha512-ClWKkbb4X6xibyKM7fkfW1e+2IH+HVzW3u+FVqnVZSuvzAdG7l8jCEVai5BtirjoqbNZsaSZXg70yjei5k1H/A==}
     peerDependencies:
       '@hocgin/hkit': workspace:*
       react: ^18
       react-dom: ^18
     dependencies:
-      '@hocgin/hkit': 2.0.40_dayjs@1.11.7
+      '@hocgin/hkit': 2.0.42_dayjs@1.11.7
       ahooks: 3.7.3_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@hocgin/browser-addone-kit/2.0.40_2omntpzqv3snsbay4evmzihlw4:
-    resolution: {integrity: sha512-DMo1PWrD5+iZ7zfa8BaQWc8M89njebrhUvsSj/OsGf/U4VP5iLfEyMXHflM/GeyHUIMPkOXhVG7RGvce51yr2Q==}
+  /@hocgin/browser-addone-kit/2.0.42_uwhne266dkejezmfk5wyv5g2yi:
+    resolution: {integrity: sha512-eQy+Dgehai4unk4+zam8S8ebcQUWzMBleav8wH2l2otLzZzD8ya8UKEUdjNp5M3lb4N54VoPHw3DrQ+/rgXKng==}
     peerDependencies:
       '@hocgin/hkit': workspace:*
       react: ^18
       react-dom: ^18
     dependencies:
-      '@hocgin/hkit': 2.0.40_dayjs@1.11.7
+      '@hocgin/hkit': 2.0.42_dayjs@1.11.7
       expiry-map: 2.0.0
       js-md5: 0.7.3
       query-string: 7.1.3
@@ -1071,8 +1071,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@hocgin/hkit/2.0.40_dayjs@1.11.7:
-    resolution: {integrity: sha512-6Zny+6YaNQrCM9RfVuJUndqMtCcMSYqbUWJTbuphASB+IPiV8y5GH+TaBfTr9wnP2cOqfNaSgGyb254I3zoeCQ==}
+  /@hocgin/hkit/2.0.42_dayjs@1.11.7:
+    resolution: {integrity: sha512-sv5e1r4t5cgDo1T0qdFKPqBFUvn+BXiKovpGKH7ZsK1ofKL/FEjdAIeK80/yYhoe11MSaQaV1T5H6urQjr7+0w==}
     peerDependencies:
       dayjs: ^1.11.1
     dependencies:
@@ -1081,8 +1081,8 @@ packages:
       umi-request: 1.4.0
     dev: false
 
-  /@hocgin/mock-kit/2.0.40_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-88S0HZJBk2QUO7XVj8SjgThHGEypAwV8dNiEyPVT4nyCwzoB/fzLgRoQTPF2yShGH1EQSTWqH/AAg84lE9Adig==}
+  /@hocgin/mock-kit/2.0.42_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-tEjtdOT9tRMjhxLupyvRm9BdFZ8qw06vQ9oyxcivGJwEu2lJ31iCzwvekTGZI+HTtyWuXrFvv0VGwZ34inMUVg==}
     peerDependencies:
       react: ^16
       react-dom: ^16
@@ -1092,7 +1092,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: true
 
-  /@hocgin/ui/5.0.20_xd35m3fdm4agwz6lin3ne4x6qe:
+  /@hocgin/ui/5.0.20_5qpvwfl5nwpuavxa7y4eyg6b34:
     resolution: {integrity: sha512-TRI7OxIMpiJn4h7nybAHb5mMh31rkCvQGMBwFynhTNSZNWIdyv70MCaHWRrvlUMcdZxeRQElMvFiaYvpER+17A==}
     peerDependencies:
       '@hocgin/ahooks-kit': ^2.0.16
@@ -1105,8 +1105,8 @@ packages:
       '@ant-design/icons': 5.0.1_biqbaboplfbrettd7655fr4n2y
       '@ant-design/pro-components': 2.3.47_xrdag4fhnsdts4zkyqbvlsya5e
       '@babel/runtime': 7.20.6
-      '@hocgin/ahooks-kit': 2.0.16_2omntpzqv3snsbay4evmzihlw4
-      '@hocgin/hkit': 2.0.40_dayjs@1.11.7
+      '@hocgin/ahooks-kit': 2.0.16_uwhne266dkejezmfk5wyv5g2yi
+      '@hocgin/hkit': 2.0.42_dayjs@1.11.7
       '@tiptap/core': 2.0.0-beta.209_rd5pjtxohzfgv2zee3iufpqkay
       '@tiptap/extension-blockquote': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
       '@tiptap/extension-bold': 2.0.0-beta.209_f4ffqkgz5d3wev7su7t7l2rrua
