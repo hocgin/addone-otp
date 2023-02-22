@@ -3,6 +3,7 @@ import {ServiceWorkerOptions} from '@hocgin/browser-addone-kit/dist/esm/browser/
 import '@/request.config';
 import {ContextMenusId, MessageType} from "@/_types";
 import AppsService from '@/_utils/_2fa/apps'
+import Config from "@/config";
 
 let updateContextMenus = async () => {
   WebExtension.contextMenus.create({
@@ -23,7 +24,33 @@ let updateContextMenus = async () => {
   }
 };
 
-WebExtension.kit.serviceWorker(ServiceWorkerOptions.default, updateContextMenus);
+WebExtension.kit.serviceWorker({
+  ...ServiceWorkerOptions.default,
+  projectId: Config.getProjectId(),
+  getUpdateURL: (extensionId: string, projectId: string) => {
+    let queryStr = stringify({
+      extensionId,
+      update: true
+    });
+    return `https://logspot.hocgin.top/${projectId}_changelog?${queryStr}`;
+  },
+  getInstallURL: (extensionId: string, projectId: string) => {
+    let queryStr = stringify({
+      extensionId,
+      install: true
+    });
+    return `https://logspot.hocgin.top/${projectId}?${queryStr}`;
+  },
+  getUninstallURL: (extensionId: string, projectId: string) => {
+    let queryStr = stringify({
+      extensionId, projectId,
+      labels: projectId,
+      title: `SuggestionsOrQuestions/建议或反馈`,
+      uninstall: true
+    });
+    return `https://github.com/hocgin/feedback/issues/new?${queryStr}`;
+  },
+}, updateContextMenus);
 
 updateContextMenus();
 WebExtension.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
@@ -37,6 +64,9 @@ WebExtension.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
       WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.InsertEditableToken, value: tokenInfo.token});
     }
   } catch (e: any) {
-    WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.ErrorMessage, value: `${i18nKit.getMessage(`error` as any)}: ${e?.message}`});
+    WebExtension.tabs.sendMessage(tab?.id, {
+      type: MessageType.ErrorMessage,
+      value: `${i18nKit.getMessage(`error` as any)}: ${e?.message}`
+    });
   }
 });
