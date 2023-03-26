@@ -1,6 +1,4 @@
 import {defineConfig} from 'umi';
-import {WebExtension} from '@hocgin/browser-addone-kit';
-import {BrowserAddoneExtensionsType} from '@hocgin/umijs-plugin-browser-addone';
 import pkg from '../package.json';
 
 export default defineConfig({
@@ -17,6 +15,7 @@ export default defineConfig({
     description: '__MSG_extension_description__',
     defaultLocale: 'en',
     icons: '../public/logo.png',
+    homepageUrl: `https://logspot.hocgin.top/${pkg.name}`,
     action: {
       defaultTitle: '__MSG_extension_action_title__',
       defaultPopup: '@/pages/popup',
