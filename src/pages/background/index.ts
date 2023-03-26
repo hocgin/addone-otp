@@ -1,9 +1,9 @@
-import {I18nKit, WebExtension} from '@hocgin/browser-addone-kit';
+import {I18nKit, RequestKit, WebExtension} from '@hocgin/browser-addone-kit';
 import {ServiceWorkerOptions} from '@hocgin/browser-addone-kit/dist/esm/browser/serviceWorker';
-import '@/request.config';
-import {ContextMenusId, MessageType} from "@/_types";
+import {ContextMenusId, Message, MessageType} from "@/_types";
 import AppsService from '@/_utils/_2fa/apps'
 import Config from "@/config";
+import {LangKit} from "@/_utils";
 
 let updateContextMenus = async () => {
   WebExtension.contextMenus.create({
@@ -45,5 +45,15 @@ WebExtension.contextMenus.onClicked.addListener(async (info: any, tab: any) => {
       type: MessageType.ErrorMessage,
       value: `${I18nKit.getMessageOrDefault(`error` as any)}: ${e?.message}`
     });
+  }
+});
+
+WebExtension.runtime.onMessage.addListener((message: Message, sender: any, sendResponse: any) => {
+  if (message?.type === MessageType.GetFile) {
+    (async () => {
+      let blob = await (await fetch(message?.value, {method: 'GET'})).blob();
+      sendResponse((await LangKit.blobToBase64(blob)))
+    })();
+    return true;
   }
 });

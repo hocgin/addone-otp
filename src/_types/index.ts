@@ -19,6 +19,7 @@ export enum MessageType {
   ScanImageUrl = 'ScanImageUrl',
   InsertEditableToken = 'InsertEditableToken',
   ErrorMessage = 'ErrorMessage',
+  GetFile = 'GetFile',
 }
 
 export interface Message {

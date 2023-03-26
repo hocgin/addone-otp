@@ -7,7 +7,7 @@ import WebMask from "./WebMask";
 let elementId = `${WebExtension.kit.getExtensionId()}_otp`;
 
 
-$(document).ready(async () => {
+$(() => {
   if (!document.getElementById(elementId)) {
     let element = document.createElement('div');
     element.id = elementId;

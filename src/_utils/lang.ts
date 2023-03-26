@@ -35,11 +35,28 @@ export class LangKit extends _LangKit {
     return new Promise<string | undefined>((resolve, reject) => {
       let fr = new FileReader();
       fr.onerror = reject;
-      fr.onload = () => {
-        resolve(fr?.result as string);
-      }
+      fr.onload = () => resolve(fr?.result as string)
       fr.readAsText(file);
     });
   }
 
+  static async resolveData(url: string) {
+    return new Promise<string>((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "blob";
+      xhr.onerror = reject;
+      xhr.onload = () => resolve(xhr.response);
+      xhr.send();
+    });
+  }
+
+  static blobToBase64(blob: Blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 }
