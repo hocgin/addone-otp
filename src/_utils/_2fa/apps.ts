@@ -162,6 +162,12 @@ export default class Service {
     await getRemoteStorage().remove(STORAGE_KEY as any);
   }
 
+  static async getAllQrCode() {
+    let qrText = `all:${JSON.stringify(await Service.listAllData())}`;
+    console.log('QRCode', qrText)
+    return qrText;
+  }
+
   static appendToken = (e: StoreOtpOptions) => {
     let token = TwoFaKit.getToken(e);
     return ({

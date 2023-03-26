@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import classnames from "classnames";
 import styles from "./index.less";
-import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, Select, Space, Tooltip} from "antd";
+import {App, Button, Dropdown, Empty, Image, Input, Popconfirm, Popover, QRCode, Select, Space, Tooltip} from "antd";
 import {
   CloudDownloadOutlined,
   FilterFilled,
@@ -27,7 +27,7 @@ const Index: React.FC<{
   event$: EventEmitter<Message>,
   className?: string;
 }> = ({className, event$}) => {
-  let {message} = App.useApp();
+  let {message, modal} = App.useApp();
   let [passwd, setPasswd] = useState<string | undefined>();
   let boxRef = useRef<any>();
   let [filter, setFilter] = useLocalStorageState('filter', {
@@ -50,7 +50,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(I18nKit.getMessageOrDefault('success' as any));
+      message.success(I18nKit.getMessageOrDefault('success'));
     },
   }), $removeById = useRequest(async (id: any) => {
     await AppService.removeById(id);
@@ -60,7 +60,7 @@ const Index: React.FC<{
     onError: e => message.error(`${e?.message}`),
     onSuccess: () => {
       $listAllData.refresh();
-      message.success(I18nKit.getMessageOrDefault('success' as any));
+      message.success(I18nKit.getMessageOrDefault('success'));
     },
   });
   let onMessage = async (message: Message) => {
@@ -81,6 +81,9 @@ const Index: React.FC<{
       let tab = await WebExtension.kit.getCurrentTab();
       console.log('扫描页面二维码', tab);
       WebExtension.tabs.sendMessage(tab?.id, {type: MessageType.ScanPageImage} as Message, onMessage);
+    } else if (message?.type === MessageType.SyncWeChat) {
+      let allQrCode = await AppService.getAllQrCode();
+      modal.info({title: `用小程序扫描同步`, content: <QRCode value={`${allQrCode}`}/>})
     }
   };
   event$.useSubscription(onMessage);
@@ -135,7 +138,7 @@ const Index: React.FC<{
           onClick: e => event$.emit({type: e.key} as any),
           items: [{
             key: MessageType.ScanPageQrCode,
-            label: I18nKit.getMessageOrDefault('scan_qrcode' as any),
+            label: I18nKit.getMessageOrDefault('scan_qrcode'),
           }, {
             key: `&${MessageType.UploadQrCode}`,
             label: <UploadFile
@@ -144,35 +147,41 @@ const Index: React.FC<{
                   .then((scanResult) => {
                     event$.emit({type: MessageType.UploadQrCode, value: scanResult});
                   })
-                  .catch(e => message.error(`${I18nKit.getMessageOrDefault('error' as any)}: ${e.message}`));
-              }}>{I18nKit.getMessageOrDefault('upload_qrcode' as any)}</UploadFile>,
+                  .catch(e => message.error(`${I18nKit.getMessageOrDefault('error')}: ${e.message}`));
+              }}>{I18nKit.getMessageOrDefault('upload_qrcode')}</UploadFile>,
           }, {
             key: MessageType.ManualInput,
-            label: I18nKit.getMessageOrDefault('manual_input' as any),
+            label: I18nKit.getMessageOrDefault('manual_input'),
           }, {
             key: `&${MessageType.ImportBackup}`,
             label: <UploadFile onChange={async (file) => {
               LangKit.readFile(file.originFileObj as any)
                 .then((value) => event$.emit({type: MessageType.ImportBackup, value: JSON.parse(value as any)}))
-                .catch(e => message.error(`${I18nKit.getMessageOrDefault('error' as any)}: ${e.message}`));
-            }}>{I18nKit.getMessageOrDefault('input_backup' as any)}</UploadFile>,
-          }]
+                .catch(e => message.error(`${I18nKit.getMessageOrDefault('error')}: ${e.message}`));
+            }}>{I18nKit.getMessageOrDefault('input_backup')}</UploadFile>,
+          }
+            // , {
+            //   key: MessageType.SyncWeChat,
+            //   label: I18nKit.getMessageOrDefault('sync_wechat', "同步到小程序"),
+            // }
+          ]
         }}>
           <Button size='small'>
             <Space>
-              {I18nKit.getMessageOrDefault('plus' as any)}
+              {I18nKit.getMessageOrDefault('plus')}
               <PlusOutlined/>
             </Space>
           </Button>
         </Dropdown>
-        <Tooltip title={I18nKit.getMessageOrDefault('export_backup' as any)}>
+        <Tooltip title={I18nKit.getMessageOrDefault('export_backup')}>
           <Button type="text" size="small" icon={<CloudDownloadOutlined/>}
                   onClick={() => event$.emit({type: MessageType.ExportBackup as any})}/>
         </Tooltip>
-        <Popconfirm title={I18nKit.getMessageOrDefault('set_password' as any)}
-                    description={<Input.Password placeholder={I18nKit.getMessageOrDefault('set_password_placeholder' as any)}
-                                                 value={passwd}
-                                                 onChange={e => setPasswd(e.target?.value)}/>}
+        <Popconfirm title={I18nKit.getMessageOrDefault('set_password')}
+                    description={<Input.Password
+                      placeholder={I18nKit.getMessageOrDefault('set_password_placeholder')}
+                      value={passwd}
+                      onChange={e => setPasswd(e.target?.value)}/>}
                     onConfirm={() => event$.emit({type: MessageType.Lock, value: passwd})}>
           <Button type="text" size="small" icon={<LockOutlined/>}/>
         </Popconfirm>
@@ -183,9 +192,8 @@ const Index: React.FC<{
           <WechatOutlined style={{color: `#67BD68`}}/>
         </Popover>
         <StoreLink/>
-        <Popover placement="topRight"
-                 content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80}
-                                 alt={I18nKit.getMessageOrDefault(`wx_gz_qrcode` as any)}/>}>
+        <Popover placement="topRight" content={<Image src="https://cdn.hocgin.top/uPic/mp-logo.jpg" width={80}
+                                                      alt={I18nKit.getMessageOrDefault(`wx_gz_qrcode` as any)}/>}>
           <QrcodeOutlined/>
         </Popover>
       </Space>

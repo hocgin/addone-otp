@@ -7,6 +7,7 @@ export enum MessageType {
   Unpin = 'Unpin',
   ScanPageQrCode = 'ScanPageQrCode',
   ManualInput = 'ManualInput',
+  SyncWeChat = 'SyncWeChat',
   UploadQrCode = 'UploadQrCode',
   ImportBackup = 'ImportBackup',
   ExportBackup = 'ExportBackup',
