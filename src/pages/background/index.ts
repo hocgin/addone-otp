@@ -1,4 +1,4 @@
-import {I18nKit, RequestKit, WebExtension} from '@hocgin/browser-addone-kit';
+import {I18nKit, WebExtension} from '@hocgin/browser-addone-kit';
 import {ServiceWorkerOptions} from '@hocgin/browser-addone-kit/dist/esm/browser/serviceWorker';
 import {ContextMenusId, Message, MessageType} from "@/_types";
 import AppsService from '@/_utils/_2fa/apps'
@@ -26,6 +26,7 @@ let updateContextMenus = async () => {
 
 WebExtension.kit.serviceWorker({
   ...ServiceWorkerOptions.default,
+  canLogin: false,
   projectId: Config.getProjectId(),
 }, updateContextMenus);
 
